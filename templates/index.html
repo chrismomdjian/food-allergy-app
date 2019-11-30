@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Food Allergy App{% endblock %}
+
+{% block content %}
+  <div class="container home-screen-container">
+    <br />
+
+    <h2 id="main-header-title">Food Allergy App</h2>
+
+    <p class="sub-text">Look up any food product in the search field below and see if they contain any ingredients you're allergic to!</p>
+
+    {% if error_msg|length %}
+      <p style="color: red;">{{ error_msg }}</p>
+    {% endif %}
+
+    <form action="/food_search" method="post" name="food_search" id="food_search_form">
+      <input type="text" name="food" id="food_search_field" placeholder="Enter a food/product name..."/>
+
+      <br />
+
+      <input type="submit" class="search-btn" value="Search food" />
+    </form>
+  </div>
+{% endblock %}

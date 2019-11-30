@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+
+/* home screen */
+.home-screen-container {
+  text-align: center;
+  width: 45%;
+}
+
+#main-header-title {
+  font-family: 'Lobster', cursive !important;
+}
+
+.sub-text {
+  text-align: left;
+}
+
+#food_search_field {
+  width: 100%;
+  padding: 10px;
+  border: solid #b2bec3 1px;
+  border-radius: 2px;
+}
+
+.search-btn {
+  padding: 10px;
+  margin: 5px 0;
+  width: 100%;
+  background-color: inherit;
+  border: solid #00cec9 1px;
+  color: #00cec9;
+  font-weight: bold;
+  border-radius: 2px;
+}
+
+.search-btn:hover {
+  cursor: pointer;
+  background-color: #00cec9;
+  color: #fff;
+  transition-duration: .5s;
+}
+
+/* results screen */
+.back-btn {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #00cec9;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 2px;
+}
+
+ul li {
+  list-style-type: none !important;
+}
+
+/* media queries */
+@media screen and (max-width: 780px) {
+  .home-screen-container {
+    width: 75%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .home-screen-container {
+    width: 100%;
+  }
+}
