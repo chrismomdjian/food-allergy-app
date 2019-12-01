@@ -70,5 +70,5 @@ def food_search():
         return render_template('food_search.html', response=res, food_items=food_items)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
