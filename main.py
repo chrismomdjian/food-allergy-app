@@ -20,6 +20,11 @@ def home():
 def food_search():
     if request.method == 'POST':
         food_search_query = request.form["food"]
+
+        if len(food_search_query) < 1:
+            error_msg = "Search field cannot be empty."
+            return render_template('index.html', error_msg=error_msg)
+
         foods_with_ingredient_label = ["generic meals", "packaged foods"]
         food_items = []
 

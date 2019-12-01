@@ -5,7 +5,7 @@
 {% block content %}
   <div class="container">
     <br />
-    
+
     <a href="/">
       <button class="btn back-btn">Back to search</button>
     </a>
@@ -27,10 +27,14 @@
 
                 <br />
 
-                Contains allergens: <br />
-                {% for allergen in item['allergens'] %}
-                  <span class="badge badge-info"">{{ allergen }}</span>&nbsp;
-                {% endfor %}
+                {% if item['allergens']|length > 0 %}
+                  Contains allergens: <br />
+                  {% for allergen in item['allergens'] %}
+                    <span class="badge badge-info"">{{ allergen }}</span>&nbsp;
+                  {% endfor %}
+                {% else %}
+                  <p class="not-allergic-message">This product doesn't contain anything you're allergic to!</p>
+                {% endif %}
 
                 <h5 class="mb-0">
                   <button class="btn btn-link" data-toggle="collapse" data-target="#{{ item['id'] }}" aria-expanded="false" aria-controls="collapseOne">
