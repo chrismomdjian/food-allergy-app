@@ -14,14 +14,23 @@
   text-align: left;
 }
 
-#food_search_field {
+.forms-wrapper {
+    width: 25%;
+    margin-top: 25px;
+}
+
+.forms-wrapper input {
+    width: 100%;
+}
+
+.input_field {
   width: 100%;
   padding: 10px;
   border: solid #b2bec3 1px;
   border-radius: 2px;
 }
 
-.search-btn {
+.btn {
   padding: 10px;
   margin: 5px 0;
   width: 100%;
@@ -32,7 +41,7 @@
   border-radius: 2px;
 }
 
-.search-btn:hover {
+.btn:hover {
   cursor: pointer;
   background-color: #00cec9;
   color: #fff;

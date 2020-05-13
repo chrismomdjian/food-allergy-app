@@ -1,9 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 import requests
 import re
 from os import environ
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+
+# load environment vars
+load_dotenv()
 
 # Food API information
 app_id = environ.get('EDUMAM_FOOD_API_ID')
@@ -15,6 +19,11 @@ allergies = ['sodium benzoate', 'benzoate', 'shellfish']
 def home():
     error_msg = ""
     return render_template('index.html', error_msg=error_msg)
+
+@app.route('/login')
+def login():
+    error_msg = ""
+    return render_template('login.html', error_msg=error_msg)
 
 @app.route('/food_search', methods=['POST'])
 def food_search():
@@ -63,12 +72,12 @@ def food_search():
         for allergen in allergies:
             for food_item in food_items:
                 # If an allergen is found in the food ingredients
-                if food_item["foodContentsLabel"].find(allergen) is not -1:
+                if food_item["foodContentsLabel"].find(allergen) != -1:
                     food_item["containsAllergens"] = True
                     food_item["allergens"].append(allergen)
 
         return render_template('food_search.html', response=res, food_items=food_items)
 
 
-if __name__ == '__main__' and not environ.get('IN_PROD'):
+if __name__ == '__main__' and environ.get('LOCAL_DEV'):
     app.run(debug=True)
