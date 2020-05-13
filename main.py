@@ -46,8 +46,8 @@ def food_search():
             return render_template('index.html', error_msg=error_msg)
 
         for food in res["hints"]:
-            id       = food["food"]["foodId"]
-            label    = food["food"]["label"]
+            id = food["food"]["foodId"]
+            label = food["food"]["label"]
             category = food["food"]["category"].lower()
 
             if category in foods_with_ingredient_label:
@@ -70,5 +70,5 @@ def food_search():
         return render_template('food_search.html', response=res, food_items=food_items)
 
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__' and not environ.get('IN_PROD'):
+    app.run(debug=True)
