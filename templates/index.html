@@ -8,21 +8,28 @@
 
     <h2 id="main-header-title">Food Allergy App</h2>
 
-    <p class="sub-text">Look up any food product in the search field below and see if they contain any ingredients you're allergic to!</p>
+    {% if uid %}
+      <p>Logged in as {{ uid }}. <span><a href="/logout" style="color: red;">logout</a></span></p>
 
-    {% if error_msg|length %}
-      <p style="color: red;">{{ error_msg }}</p>
+      <p class="sub-text">Look up any food product in the search field below and see if they contain any ingredients you're allergic to!</p>
+
+      {% if error_msg|length %}
+        <p style="color: red;">{{ error_msg }}</p>
+      {% endif %}
+
+      <form action="/food_search" method="post" name="food_search" id="food_search_form">
+        <input type="text" name="food" class="input_field" placeholder="Enter a food/product name..."/>
+
+        <br />
+
+        <input type="submit" class="btn" value="Search food" />
+        <div class="loader-container">
+          <div class="loader"></div>
+        </div>
+      </form>
+    {% else %}
+      <a href="/login_page"><p>Login</p></a>
     {% endif %}
 
-    <form action="/food_search" method="post" name="food_search" id="food_search_form">
-      <input type="text" name="food" class="input_field" placeholder="Enter a food/product name..."/>
-
-      <br />
-
-      <input type="submit" class="btn" value="Search food" />
-      <div class="loader-container">
-        <div class="loader"></div>
-      </div>
-    </form>
   </div>
 {% endblock %}

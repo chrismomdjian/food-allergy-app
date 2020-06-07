@@ -6,9 +6,11 @@
     <div class="container text-center forms-wrapper">
         <h2>Login to your account</h2>
 
+        <p class="error">{{ error_msg }}</p>
+
         <br>
 
-        <form action="#" method="post" name="login-form">
+        <form action="/login" method="post" name="login-form">
             <input type="email" name="email-login" class="input_field" placeholder="Email address"/>
             <br>
             <br>
@@ -18,6 +20,6 @@
             <input type="submit" class="btn" name="login-btn" value="Login"/>
         </form>
         <hr>
-        <a href="#"><p>Forgot password</p></a>
+        <a href="#"><p>Forgot password?</p></a>
     </div>
 {% endblock %}

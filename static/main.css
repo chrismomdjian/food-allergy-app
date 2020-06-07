@@ -30,6 +30,10 @@
   border-radius: 2px;
 }
 
+.error {
+  color: red;
+}
+
 .btn {
   padding: 10px;
   margin: 5px 0;

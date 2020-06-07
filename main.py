@@ -1,8 +1,12 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 import requests
 import re
 from os import environ
 from dotenv import load_dotenv
+
+# firebase info
+from db.db import firebase
+auth = firebase.auth()
 
 app = Flask(__name__)
 
@@ -18,12 +22,57 @@ allergies = ['sodium benzoate', 'benzoate', 'shellfish']
 @app.route('/')
 def home():
     error_msg = ""
-    return render_template('index.html', error_msg=error_msg)
+    user_id = False
+    username = None
 
-@app.route('/login')
-def login():
+    if 'userToken' in session:
+        username = session['username']
+    else:
+        user_id = False
+
+    return render_template('index.html', error_msg=error_msg, uid=username)
+
+
+@app.route('/login_page')
+def login_page():
     error_msg = ""
+
+    if 'userToken' in session:
+        return redirect(url_for('home'))
+
     return render_template('login.html', error_msg=error_msg)
+
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        user_id = session['userToken']
+    except KeyError:
+        user_id = False
+
+    if user_id:
+        return redirect(url_for('home'))
+    else:
+        if request.method == 'POST':
+            error_msg = ''
+            email = request.form['email-login']
+            password = request.form['password-login']
+
+            try:
+                user = auth.sign_in_with_email_and_password(email, password)
+                user = auth.refresh(user['refreshToken'])
+                session['userToken'] = user['idToken']
+                session['username'] = auth.get_account_info(session['userToken'])['users'][0]['email']
+                return redirect(url_for('home'))
+            except:
+                error_msg = 'Incorrect email or password'
+                return render_template('login.html', error_msg=error_msg)
+
+
+@app.route('/logout')
+def logout():
+    auth.current_user = None
+    session.clear()
+    return redirect(url_for('home'))
 
 @app.route('/food_search', methods=['POST'])
 def food_search():
@@ -80,4 +129,5 @@ def food_search():
 
 
 if __name__ == '__main__' and environ.get('LOCAL_DEV'):
+    app.secret_key = 'yg732g72362g8ihoqwu'
     app.run(debug=True)
