@@ -8,6 +8,30 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
+
+    <!-- navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a id="navbar-title" class="navbar-brand" href="/">Food Allergy Checker</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          {% if session['userToken'] %}
+            <li class="nav-item active">
+                <a class="nav-link" href="">Update allergy list</a>
+            </li>
+            {% endif %}
+        </ul>
+        <span class="navbar-text">
+          {% if session['userToken'] %}
+            <span>{{ session['username'] }} | <a href="/logout">logout</a></span>
+          {% endif %}
+        </span>
+      </div>
+    </nav>
+
+    <!-- main content -->
     {% block content %}{% endblock %}
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -15,10 +39,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
-    $('#food_search_form').submit(function() {
-      $('.loader').css('display', 'block');
-      $('.search-btn').css('display', 'none');
-    });
+      $('#food_search_form').submit(function() {
+        $('.loader').css('display', 'block');
+        $('.search-btn').css('display', 'none');
+      });
     </script>
   </body>
 </html>

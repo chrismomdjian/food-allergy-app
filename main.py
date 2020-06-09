@@ -22,15 +22,11 @@ allergies = ['sodium benzoate', 'benzoate', 'shellfish']
 @app.route('/')
 def home():
     error_msg = ""
-    user_id = False
-    username = None
 
-    if 'userToken' in session:
-        username = session['username']
-    else:
-        user_id = False
+    if 'userToken' not in session:
+        redirect(url_for('login_page'))
 
-    return render_template('index.html', error_msg=error_msg, uid=username)
+    return render_template('index.html', error_msg=error_msg)
 
 
 @app.route('/login_page')

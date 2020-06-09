@@ -10,6 +10,10 @@
   font-family: 'Lobster', cursive !important;
 }
 
+#navbar-title {
+  font-family: 'Lobster', cursive !important;
+}
+
 .sub-text {
   text-align: left;
 }
@@ -32,6 +36,17 @@
 
 .error {
   color: red;
+}
+
+button {
+    background-color: lightgrey;
+    color: #000;
+    border: solid grey 1px;
+    border-radius: 2px;
+}
+
+button:hover {
+    background-color: grey;
 }
 
 .btn {
