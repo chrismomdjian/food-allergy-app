@@ -135,4 +135,10 @@ ul li {
   .home-screen-container {
     width: 100%;
   }
+
+  input[type="checkbox"],
+  .form-check-inline,
+  .form-check-input{
+    width: 5px !important;
+  }
 }
