@@ -3,10 +3,7 @@ import requests
 import re
 from os import environ
 from dotenv import load_dotenv
-
-# firebase info
-from db.db import firebase
-auth = firebase.auth()
+from allergies import list_of_allergies
 
 app = Flask(__name__)
 
@@ -17,68 +14,34 @@ load_dotenv()
 app_id = environ.get('EDUMAM_FOOD_API_ID')
 app_key = environ.get('EDUMAM_FOOD_API_KEY')
 
-allergies = ['sodium benzoate', 'benzoate', 'shellfish']
+# allergies = ['sodium benzoate', 'benzoate', 'shellfish']
+
 
 @app.route('/')
 def home():
     error_msg = ""
+    return render_template('index.html', list_of_allergies=list_of_allergies, error_msg=error_msg)
 
-    if 'userToken' not in session:
-        redirect(url_for('login_page'))
-
-    return render_template('index.html', error_msg=error_msg)
-
-
-@app.route('/login_page')
-def login_page():
-    error_msg = ""
-
-    if 'userToken' in session:
-        return redirect(url_for('home'))
-
-    return render_template('login.html', error_msg=error_msg)
-
-@app.route('/login', methods=['POST'])
-def login():
-    try:
-        user_id = session['userToken']
-    except KeyError:
-        user_id = False
-
-    if user_id:
-        return redirect(url_for('home'))
-    else:
-        if request.method == 'POST':
-            error_msg = ''
-            email = request.form['email-login']
-            password = request.form['password-login']
-
-            try:
-                user = auth.sign_in_with_email_and_password(email, password)
-                user = auth.refresh(user['refreshToken'])
-                session['userToken'] = user['idToken']
-                session['username'] = auth.get_account_info(session['userToken'])['users'][0]['email']
-                return redirect(url_for('home'))
-            except:
-                error_msg = 'Incorrect email or password'
-                return render_template('login.html', error_msg=error_msg)
-
-
-@app.route('/logout')
-def logout():
-    auth.current_user = None
-    session.clear()
-    return redirect(url_for('home'))
 
 @app.route('/food_search', methods=['POST'])
 def food_search():
     if request.method == 'POST':
         food_search_query = request.form["food"]
+        allergies = request.form.getlist('allergy-list')
+        error_found = False
 
+        # error checking
         if len(food_search_query) < 1:
             error_msg = "Search field cannot be empty."
-            return render_template('index.html', error_msg=error_msg)
+            error_found = True
+        elif len(allergies) < 1:
+            error_msg = "Select at least one allergy from the options below."
+            error_found = True
 
+        if error_found:
+            return render_template('index.html', list_of_allergies=list_of_allergies, error_msg=error_msg)
+
+        # --- no errors found --- #
         foods_with_ingredient_label = ["generic meals", "packaged foods"]
         food_items = []
 
@@ -94,19 +57,18 @@ def food_search():
 
         # Error out if user entered invalid food item
         error = res.get('error')
-
         if error:
             error_msg = "Please enter a valid food item."
             return render_template('index.html', error_msg=error_msg)
 
         for food in res["hints"]:
-            id = food["food"]["foodId"]
+            food_id = food["food"]["foodId"]
             label = food["food"]["label"]
             category = food["food"]["category"].lower()
 
             if category in foods_with_ingredient_label:
                 food_items.append({
-                    "id": id,
+                    "id": food_id,
                     "label": label,
                     "category": category,
                     "foodContentsLabel": food["food"]["foodContentsLabel"].lower(),

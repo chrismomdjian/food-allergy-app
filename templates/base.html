@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/main.css" />
+
+    <!--  font awesome  -->
+    <script src="https://kit.fontawesome.com/b328677319.js" crossorigin="anonymous"></script>
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
@@ -19,7 +22,7 @@
         <ul class="navbar-nav mr-auto">
           {% if session['userToken'] %}
             <li class="nav-item active">
-                <a class="nav-link" href="">Update allergy list</a>
+                <a class="nav-link" href="/update_allergies">Update allergy list</a>
             </li>
             {% endif %}
         </ul>
@@ -39,9 +42,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
-      $('#food_search_form').submit(function() {
-        $('.loader').css('display', 'block');
-        $('.search-btn').css('display', 'none');
+      $(document).ready(function(){
+        $('#food_search_form').submit(function() {
+          $('.loader').css('display', 'block');
+          $('.search-btn').css('display', 'none');
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
       });
     </script>
   </body>

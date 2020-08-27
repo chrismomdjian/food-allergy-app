@@ -8,8 +8,7 @@
 
     <h2 id="main-header-title">Food Allergy Checker</h2>
 
-    {% if session['userToken'] %}
-      <p class="sub-text">Look up any food product in the search field below and see if they contain any ingredients you're allergic to!</p>
+    <p class="sub-text">Look up any food product in the search field below and see if they contain any ingredients you're allergic to!</p>
 
       {% if error_msg|length %}
         <p style="color: red;">{{ error_msg }}</p>
@@ -18,18 +17,26 @@
       <form action="/food_search" method="post" name="food_search" id="food_search_form">
         <input type="text" name="food" class="input_field" placeholder="Enter a food/product name..."/>
 
-        <br />
+        <br /><br />
+
+        <div id="allergy-checkboxes">
+          {% for allergen in list_of_allergies %}
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="allergy-list" type="checkbox" value="{{ allergen['name'] }}" id="{{ allergen['id'] }}">
+            <label class="form-check-label" for="{{ allergen['id'] }}">
+              {{ allergen['name'] }}
+            </label>
+          </div>
+        {% endfor %}
+        </div>
+
+        <hr />
 
         <input type="submit" class="btn" value="Search food" />
         <div class="loader-container">
           <div class="loader"></div>
         </div>
       </form>
-    {% else %}
-
-      <a href="/login_page"><p>Login</p></a>
-    
-    {% endif %}
 
   </div>
 {% endblock %}
